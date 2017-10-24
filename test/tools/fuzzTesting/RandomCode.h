@@ -112,6 +112,7 @@ public:
 	virtual int randomMemoryLength() = 0;
 	virtual uint8_t randomOpcode() = 0;
 	virtual uint8_t weightedOpcode(std::vector<int>& _weights) = 0;
+	virtual ~RandomCodeBase() {}
 
 private:
 	std::vector<std::string> getTypes();

@@ -22,6 +22,7 @@
 #pragma once
 #include <string>
 #include <test/tools/fuzzTesting/BoostRandomCode.h>
+#include <test/tools/fuzzTesting/DeterministicRandomCode.h>
 
 //Test Templates
 extern std::string const c_testExampleStateTest;
@@ -47,14 +48,20 @@ public:
 	static RandomCodeBase& get()
 	{
 		static RandomCode instance;
-		return instance.generator;
+		return *instance.generator;
 	}
 	RandomCode(RandomCode const&) = delete;
 	void operator=(RandomCode const&) = delete;
+	~RandomCode() { delete generator; }
 
 private:
-	RandomCode(){}
-	BoostRandomCode generator;
+	RandomCode(){
+		if (Options::get().randomTestSeed.empty())
+			generator = new BoostRandomCode();
+		else
+			generator = new DeterministicRandomCode(Options::get().randomTestSeed);
+	}
+	RandomCodeBase* generator;
 };
 
 }

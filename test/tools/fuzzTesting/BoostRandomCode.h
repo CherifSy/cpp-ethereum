@@ -37,6 +37,7 @@ class BoostRandomCode: public RandomCodeBase
 public:
 	BoostRandomCode()
 	{
+
 		percentDist = IntDistrib (0, 100);
 		opCodeDist = IntDistrib (0, 255);
 		opLengDist = IntDistrib (1, 32);
@@ -61,7 +62,7 @@ public:
 	uint8_t randomOpcode() { refreshSeed(); return randOpCodeGen(); }
 	uint8_t weightedOpcode(std::vector<int>& _weights);
 
-private:
+protected:
 	std::mt19937_64 gen;					///< Random generator
 	IntDistrib opCodeDist;					///< 0..255 opcodes
 	IntDistrib percentDist;					///< 0..100 percent
@@ -76,7 +77,7 @@ private:
 	IntGenerator randOpMemrGen;				///< Generate random length from opMemrDist
 	IntGenerator randoOpSmallMemrGen;		///< Generate random length from opSmallMemrDist
 
-	void refreshSeed();
+	void virtual refreshSeed();
 
 };
 
