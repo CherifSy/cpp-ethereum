@@ -260,17 +260,17 @@ std::string RandomCodeBase::generate(int _maxOpNumber, RandomCodeOptions const& 
 		while (info.name.find("INVALID_INSTRUCTION") != std::string::npos || info.name.empty()
 			|| std::find(invalidOpcodes.begin(), invalidOpcodes.end(), inst) != invalidOpcodes.end())
 		{
-			inst = (eth::Instruction) opcode;
-			info = eth::instructionInfo(inst);
 			if (_options.useUndefinedOpCodes)
 			{
 				code += toCompactHex(opcode, 1);
-				break;
+				return "0x" + code;
 			}
 			else
 			{
 				//Byte code is yet not implemented. do not count it.
 				opcode++;
+				inst = (eth::Instruction) opcode;
+				info = eth::instructionInfo(inst);
 				continue;
 			}
 		}
